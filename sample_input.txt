@@ -1,44 +1,55 @@
-Hello! My email is john@example.com
-You can also reach sara@company.org
-US Office: (555) 123-4567
-Rwanda Office: +250 788 123 456
+=== Customer Support Chat Log - 2024-02-02 ===
 
-Contact John at john@company.com or call 0788 456 789
-For international calls: +250 722 345 678
+[09:15 AM] Customer: Hi, I need help with my order #12345
+My email is john.doe@example.com and phone is (555) 123-4567
 
-Alternative:788123456 (local)
-US Mobile: 555-987-6543
+[09:17 AM] Agent: Hello! I can help you with that.
+Could you confirm your account email?
 
-Visit our website at https://www.example.com
-Check out our blog: https://blog.company.org/articles
-Documentation: http://docs.site.co.uk/guide
+[09:18 AM] Customer: Yes, it's john.doe@example.com
+I ordered at 14:30 yesterday and paid $49.99
 
-=== International Prices ===
-US Prices: $19.99, $1,234.56, $50
-UK Prices: £25.99, £1,000.50
-EU Prices: €30.00, €5,500
-Japan: ¥1,000, ¥150,000
+[09:20 AM] Agent: Great! I see your order for $49.99
+Delivery scheduled for 2:30 PM today
+Track it here: https://shipping.example.com/track/ABC123
 
+[09:22 AM] Customer: Perfect! Also, can I update my phone?
+New number is +250 788 456 789 (Rwanda mobile)
 
-=== East African Currencies ===
-Rwanda: RWF 5,000, 10,000 RWF, FRw 2,500
-Kenya: 2,500 KSh, 7,500 KES, KSh 100,000
+[09:25 AM] Agent: Updated! ✓
+Payment confirmation sent to john.doe@example.com
+You can also reach us at support@example.com or visit https://help.example.com
 
-Discount: $0.99 or £0.75 or €0.85
+[09:27 AM] Customer: Thanks! #CustomerService #HappyCustomer
 
-=== Meeting Times ===
-Morning meeting: 9:00 AM
-Lunch break: 12:30 PM
-Afternoon session: 2:30 PM
-End of day: 5:00 PM
+=== Transaction Records ===
 
-=== 24-Hour Schedule ===
-Early shift: 06:00 to 14:30
-Night shift: 22:00 to 06:00
-Server maintenance: 23:59
+Transaction 1:
+- Date: 2024-02-01 at 10:45 AM
+- Amount: $1,234.56
+- Customer: alice.smith@company.co.uk
+- Phone: (555) 987-6543
+- Website: https://store.example.org/checkout
 
+Transaction 2:
+- Date: 2024-02-02 at 08:30
+- Amount: RWF 50,000
+- Customer: bob.jones@test.com
+- Phone: 0788 123 456
+- Reference: https://payments.example.com/receipt/XYZ789
 
-Check out our new #Python tutorial! #DataScience #AI2024 is trending.
-Follow us at #learn_regex for more tips. #COVID19 updates available.
-Invalid: #123test (starts with number), # (just hash), #hello world (has space)
-Programming languages: C# and F# are great! (these shouldn't be extracted as hashtags)
+Transaction 3:
+- Time: 3:15 PM
+- Amount: €99.99
+- Tags: #OnlineShopping #SecurePayment
+- Contact: help@support.example.net or call (555) 111-2222
+
+=== Social Media Posts ===
+
+Post 1: Check out our new #Python tutorial at https://learn.example.com! 
+Available 9:00 AM - 5:00 PM. Price: $19.99
+Contact: courses@example.edu #Programming #LearnToCode
+
+Post 2: Flash sale! ⚡ Get 50% off - only $24.99 (was $49.99)
+Ends at 11:59 PM tonight! #Sale #Discount
+Visit https://shop.example.com/sale or call (555) 444-5555

@@ -1,5 +1,111 @@
 import re
 
+# Security scan function to check for dangerous patterns
+def is_input_safe(text):
+    dangerous_patterns = [
+        r"<script",           # JavaScript injection
+        r"javascript:",       # Malicious URL protocol
+        r"'\s*OR\s*'",       # SQL injection: ' OR '
+        r";\s*DROP\s+TABLE", # SQL injection: ; DROP TABLE
+        r"\.\./",            # Path traversal: ../
+        r"rm\s+-rf",         # Delete command
+    ]
+    
+    for pattern in dangerous_patterns:
+        if re.search(pattern, text, re.IGNORECASE):
+            print(f"ERROR! Found '{pattern}'")
+            return False
+    return True
+
+# Email validation function
+def validate_email(email):
+    if len(email) > 254:
+        print(f"Rejected email (too long): {email[:30]}...")
+        return False
+    
+    if email.count('@') != 1:
+        print(f"Rejected email (invalid format): {email}")
+        return False
+    
+    dangerous_chars = ['<', '>', '"', "'", ';', '\\']
+    for char in dangerous_chars:
+        if char in email:
+            print(f"Rejected email (dangerous character): {email}")
+            return False
+        
+    return True
+
+#Phone validation function
+def validate_phone(phone):
+    digits_only = re.sub(r'\D', '', phone)
+    if len(digits_only) < 7 or len(digits_only) > 15:
+        print(f"Rejected phone number (invalid length): {phone}")
+        return False
+    
+    return True
+
+#URL validation function
+def validate_url(url):
+    if len(url) > 2048:
+        print(f"Rejected URL (too long): {url[:50]}...")
+        return False
+    
+    if not url.startswith(('http://', 'https://')):
+        print(f"Rejected URL (invalid protocol): {url}")
+        return False
+    
+    dangerous_protocols = ['javascript:', 'data:', 'vbscript:', 'file:']
+    for protocol in dangerous_protocols:
+        if protocol in url.lower():
+            print(f"Rejected URL (dangerous protocol): {url}")
+            return False
+        
+    return True
+
+#currency validation function
+def validate_currency(amount):
+    number_only = re.sub(r'[^\d.]', '', amount)
+    try: 
+        value = float(number_only)
+        if value > 100000000:
+            print(f"Rejected currency amount (unrealistic value): {amount}")
+            return False
+        
+        return True
+        
+    except ValueError:
+        print(f"Rejected currency amount (invalid format): {amount}")
+        return False
+    
+#Output masking function
+def mask_sensitive_data(data, data_type):
+ 
+#Masking Emails
+    if data_type == "email":
+        parts = data.split('@')
+        
+        if len(parts) == 2:
+            username = parts[0]
+            domain = parts[1]
+
+            if len(username) > 2:
+                masked_username = username[0] + '*' * (len(username) - 2) + username[-1]
+                return f"{masked_username}@{domain}"
+            else:
+                return f"{username[0]}*@{domain}"
+    
+        return data
+    
+ #Masking phone numbers      
+    elif data_type == "phone":
+        digits = re.sub(r'\D', '', data)
+        
+        if len(digits) >= 4:
+            return '*' * (len(digits) - 4) + digits[-4:]       
+        return data
+    
+    return data
+            
 print("***Program started!***")
 
 # Read the input file
@@ -10,63 +116,89 @@ print("=====ORIGINAL TEXT=====")
 print(text)
 print()
 
+print("=====SECURITY SCAN=====")
+if not is_input_safe(text):
+    print("❌Input text failed the security scan. Exiting program.")
+    exit()
+else:
+    print("✅Input text passed the security scan. Proceeding with data extraction.......")
+
 # EXTRACTING EMAIL ADDRESSES
+email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+emails_raw = re.findall(email_pattern, text)
 
-email_pattern = r'\w+@\w+\.\w+'
-emails = re.findall(email_pattern, text)
-
+emails = []
+for email in emails_raw:
+    if validate_email(email):
+        emails.append(email)
+        
 print("=====EMAILS EXTRACTED=====")
-print(emails)
+if emails:
+    for email in emails:
+        masked = mask_sensitive_data(email, "email")
+        print(f" -{masked}(masked for privacy)")
+else:
+    print(" No valid emails found.")
 print()
 
 #EXTRACTING PHONE NUMBERS
-
 #US/International phone pattern
 us_phone_pattern = r'\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}'
 
 #Rwandan phone pattern
 rw_phone_pattern = r'(?:\+250|00250|0)?[\s]?7[2-9][\s]?\d[\s]?\d{3}[\s]?\d{3}'
 
-us_phones = re.findall(us_phone_pattern, text)
-rw_phones = re.findall(rw_phone_pattern, text)
-all_phones = us_phones + rw_phones
+us_phones_raw = re.findall(us_phone_pattern, text)
+rw_phones_raw = re.findall(rw_phone_pattern, text)
+all_phones_raw = us_phones_raw + rw_phones_raw
 
+all_phones = []
+for phone in all_phones_raw:
+    if validate_phone(phone):
+        all_phones.append(phone)
+        
 print("=====PHONE NUMBERS EXTRACTED=====")
-for phone in all_phones:
-#phone pattern might return tuples because of groups, so we join them
-    if isinstance(phone, tuple):
-        phone = ''.join(phone)
-    print(f" -{phone}")
+if all_phones:
+    for phone in all_phones:
+        masked = mask_sensitive_data(phone, "phone")
+        print(f" -{masked}(masked for privacy)")
+else:
+    print(" No valid phone numbers found.")
 print()
 
 #EXTRACTING WEBSITE URLS
-
 url_pattern = r'https?://[\w-]+(?:\.[\w-]+)*\.\w{2,}(?:/[\w\-._~:/?#[\]@!$&\'()*+,;=]*)?'
-urls = re.findall(url_pattern, text)
+urls_raw = re.findall(url_pattern, text)
 
+urls = []
+for url in urls_raw:
+    if validate_url(url):
+        urls.append(url)
 print("=====WEBSITE URLS EXTRACTED=====")
 if urls:
     for url in urls:
-    # url pattern might return tuples because it has groups, so we join them
-        if isinstance(url, tuple):
-            url = ''.join(url)
         print(f" -{url}")
 else:
     print(" No URLs found.")
 print()
 
 #EXTRACTING CURRENCY AMOUNTS
-
 # Symbol-based currencies such as ($, £, €, ¥)
 symbol_currency_pattern = r'[$£€¥]\s?\d{1,3}(?:,\d{3})*(?:\.\d{2})?'
 
 # Code-based currencies such as (RWF, KES) which usually come before or after the amount
 code_currency_pattern = r'(?:RWF|FRw|KSh|KES)\s?\d{1,3}(?:,\d{3})*(?:\.\d{2})?|\d{1,3}(?:,\d{3})*(?:\.\d{2})?\s(?:RWF|FRw|KSh|KES)'
 
-symbol_currencies = re.findall(symbol_currency_pattern, text)
-code_currencies = re.findall(code_currency_pattern, text)
+symbol_currencies_raw = re.findall(symbol_currency_pattern, text)
+code_currencies_raw = re.findall(code_currency_pattern, text)
+all_currencies_raw = symbol_currencies_raw + code_currencies_raw
+
+all_currencies = []
+for currency in all_currencies_raw:
+    if validate_currency(currency):
+        all_currencies.append(currency)
+
 print("=====CURRENCY AMOUNTS EXTRACTED=====")
-all_currencies = symbol_currencies + code_currencies
 
 if all_currencies:
     for currency in all_currencies:
