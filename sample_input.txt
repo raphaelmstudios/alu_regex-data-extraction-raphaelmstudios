@@ -1,0 +1,10 @@
+Hello! My email is john@example.com
+You can also reach sara@company.org
+US Office: (555) 123-4567
+Rwanda Office: +250 788 123 456
+
+Contact John at john@company.com or call 0788 456 789
+For international calls: +250 722 345 678
+
+Alternative:788123456 (local)
+US Mobile: 555-987-6543
