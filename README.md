@@ -38,7 +38,7 @@ The data extraction tool ensures that the data it extracts is safe and well-form
 
 **Validation:**
 
-- Maximum 254 characters (RFC 5321 standard)
+- Maximum 254 characters
 - Exactly one @ symbol
 - Rejects dangerous characters: `< > " ' ; \`
 
@@ -82,12 +82,6 @@ The data extraction tool ensures that the data it extracts is safe and well-form
 - Blocks dangerous protocols: javascript:, data:, vbscript:, file:
 
 ### 4. Currency Amounts
-
-**Symbol Pattern:**
-
-```
-[$£€¥]\s?\d{1,3}(?:,\d{3})*(?:\.\d{2})?
-```
 
 **Examples:**
 
@@ -278,4 +272,4 @@ Results successfully saved to sample_output.txt
 
 **Raphael Mumo**
 
-GitHub: [RAPHAELMSTUDIOS](https://github.com/RAPHAELMSTUDIOS)
+GitHub: [raphaelmstudios](https://github.com/raphaelmstudios)
