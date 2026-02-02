@@ -105,8 +105,10 @@ def mask_sensitive_data(data, data_type):
         return data
     
     return data
-            
-print("***Program started!***")
+
+#redirection to sample_output.txt
+
+print("==================PROGRAM STARTED!==================")
 
 # Read the input file
 with open('sample_input.txt', 'r') as file:
@@ -124,7 +126,7 @@ else:
     print("✅Input text passed the security scan. Proceeding with data extraction.......")
 
 # EXTRACTING EMAIL ADDRESSES
-email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+email_pattern = email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
 emails_raw = re.findall(email_pattern, text)
 
 emails = []
@@ -239,4 +241,79 @@ else:
     print(" No hashtags found.")
 print()
 
-print("***Program ended!***")
+#saving the result to output file
+print("\nSaving results to sample_output.txt...")
+
+try:
+    with open('sample_output.txt', 'w', encoding='utf-8') as f:
+        f.write("======================================================================\n")
+        f.write("           DATA EXTRACTION & VALIDATION RESULTS\n")
+        f.write("======================================================================\n\n")
+        
+        # Emails
+        f.write("------------------------------- EXTRACTED EMAILS -------------------------------\n")
+        if emails:
+            for email in emails:
+                masked = mask_sensitive_data(email, "email")
+                f.write(masked + " (masked for privacy)\n")
+        else:
+            f.write("No emails found.\n")
+        f.write("\n")
+        
+        # Phone Numbers
+        f.write("---------------------------- EXTRACTED PHONE NUMBERS ----------------------------\n")
+        if all_phones:
+            for phone in all_phones:
+                masked = mask_sensitive_data(phone, "phone")
+                f.write(masked + " (masked for privacy)\n")
+        else:
+            f.write("No phone numbers found.\n")
+        f.write("\n")
+        
+        # URLs
+        f.write("------------------------------- EXTRACTED URLs ---------------------------------\n")
+        if urls:
+            for url in urls:
+                f.write(url + "\n")
+        else:
+            f.write("No URLs found.\n")
+        f.write("\n")
+        
+        # Currency
+        f.write("---------------------------- EXTRACTED CURRENCY AMOUNTS -------------------------\n")
+        if all_currencies:
+            for currency in all_currencies:
+                f.write(currency + "\n")
+        else:
+            f.write("No currency amounts found.\n")
+        f.write("\n")
+        
+        # Time
+        f.write("------------------------------- EXTRACTED TIME VALUES ---------------------------\n")
+        if all_times:
+            for time in all_times:
+                f.write(time + "\n")
+        else:
+            f.write("No time values found.\n")
+        f.write("\n")
+        
+        # Hashtags
+        f.write("------------------------------- EXTRACTED HASHTAGS ------------------------------\n")
+        if hashtags:
+            for hashtag in hashtags:
+                f.write(hashtag + "\n")
+        else:
+            f.write("No hashtags found.\n")
+        f.write("\n")
+        
+        # End
+        f.write("======================================================================\n")
+        f.write("                           END OF REPORT\n")
+        f.write("======================================================================\n")
+    
+    print("✅ Results successfully saved to sample_output.txt")
+    
+except Exception as e:
+    print(f"❌ Error saving output file: {e}")
+    
+print("====================PROGRAM ENDED!======================")
